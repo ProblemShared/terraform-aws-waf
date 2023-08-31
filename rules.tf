@@ -517,6 +517,28 @@ resource "aws_wafv2_web_acl" "default" {
                 }
               }
             }
+
+            dynamic "scope_down_statement" {
+              for_each = lookup(managed_rule_group_statement.value, "exclude_uri_path", null) != null ? managed_rule_group_statement.value.exclude_uri_path : {}
+
+              content {
+                not_statement {
+                  statement {
+                    byte_match_statement {
+                      positional_constraint = scope_down_statement.value.positional_constraint
+                      search_string         = scope_down_statement.value.search_string
+                      field_to_match {
+                        uri_path {}
+                      }
+                      text_transformation {
+                        priority = 0
+                        type     = scope_down_statement.value.text_transformation_type
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

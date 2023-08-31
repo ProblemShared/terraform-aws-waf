@@ -401,6 +401,23 @@ variable "managed_rule_group_statement_rules" {
       rule_action_override:
         Action settings to use in the place of the rule actions that are configured inside the rule group.
         You specify one override for each rule whose action you want to change.
+      exclude_uri_path:
+        Narrows the scope of the statement to matching web requests using the scope_down_statement byte_match_statement.
+        positional_constraint:
+          (Required) Area within the portion of a web request that you want AWS WAF to search for search_string.
+          Valid values include the following: EXACTLY, STARTS_WITH, ENDS_WITH, CONTAINS, CONTAINS_WORD.
+          See the [AWS documentation](https://docs.aws.amazon.com/waf/latest/APIReference/API_ByteMatchStatement.html) for more information.
+        search_string:
+          (Required) String value that you want AWS WAF to search for.
+          AWS WAF searches only in the part of web requests that you designate for inspection in `field_to_match`.
+          The maximum length of the value is 50 bytes.
+        text_transformation_type:
+          (Required) Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection.
+          For detailed descriptions of each of the transformation types, see [Text transformations](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-transformation.html) in the AWS WAF Developer Guide.
+          Valid Values: NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE,
+          HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH,
+          NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
+
 
     visibility_config:
       Defines and enables Amazon CloudWatch metrics and web request sample collection.
